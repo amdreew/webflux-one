@@ -1,0 +1,23 @@
+<IfModule mod_headers.c>
+    Header set X-Frame-Options: "SAMEORIGIN"
+    Header always edit Set-Cookie (.*) "$1; SameSite=None;Secure;Httponly"
+</IfModule>
+
+#Control de acceso a los archivos .inc
+<filesMatch "\.(inc)$">
+deny from all
+</filesMatch>
+
+#Comprimir las salidas de css y los js
+<filesMatch "\.(css|js)$">
+SetOutputFilter DEFLATE
+</filesMatch>
+
+#Cenerar de una semana para archivos estaticos
+<filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</filesMatch>
+
+#URLs amigables
+Options +FollowSymlinks
+RewriteEngine on
